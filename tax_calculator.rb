@@ -14,7 +14,7 @@ class TaxCalculator
   end
 
   def self.round_up_tax(value)
-    rounded_num_hundreds = value.round(2) * 100
+    rounded_num_hundreds = (value.round(2) * 100).to_i
     rounded_num_hundreds += 1 until (rounded_num_hundreds % 5).zero?
     rounded_num_hundreds.to_f / 100
   end

@@ -15,16 +15,24 @@ class ShopItem
     @total_list_price = @unit_list_price * @quantity
   end
 
-  def sales_tax
+  def unit_sales_tax
     return 0 if TaxExempt.exemptible?(self)
 
-    TaxCalculator.sales_tax(@total_list_price)
+    TaxCalculator.sales_tax(@unit_list_price)
+  end
+
+  def unit_import_tax
+    return 0 unless imported?
+
+    TaxCalculator.import_tax(@unit_list_price)
+  end
+
+  def sales_tax
+    unit_sales_tax * @quantity
   end
 
   def import_tax
-    return 0 unless imported?
-
-    TaxCalculator.import_tax(@total_list_price)
+    unit_import_tax * @quantity
   end
 
   def final_price
